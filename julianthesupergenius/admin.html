@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Julian The Super Genius</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="hartsbrook-post.html" class="nav-link">Hartsbrook Post</a>
+        <a href="admin.html" class="nav-link active">Admin</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="ADMIN">ADMIN</h1>
+            <h2 class="subtitle">DASHBOARD</h2>
+        </header>
+        
+        <main>
+            <div class="glass-card">
+                <h3>Upload New Hartsbrook Post</h3>
+                <p style="margin-bottom: 2rem;">Use this form to add a new newspaper file. It will automatically upload to Firebase and appear on the Hartsbrook Post page.</p>
+                
+                <form id="firebase-upload-form" class="email-form">
+                    <div class="form-group">
+                        <label for="headline" style="display: block; text-align: left; margin-bottom: 0.5rem; color: var(--primary);">Headline</label>
+                        <input type="text" id="headline" name="headline" class="form-input" placeholder="e.g., The Genius Awakens" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="date" style="display: block; text-align: left; margin-bottom: 0.5rem; color: var(--primary);">Release Date</label>
+                        <input type="date" id="date" name="date" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label for="file" style="display: block; text-align: left; margin-bottom: 0.5rem; color: var(--primary);">Newspaper File (PDF, Word, etc.)</label>
+                        <input type="file" id="file" name="file" class="form-input" required>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" class="cta-button" style="margin-top: 2rem;">Upload Post</button>
+                </form>
+
+                <div id="status-msg" style="display: none; color: #00f0ff; margin-top: 1rem; font-weight: bold;">
+                    Uploading... please wait.
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const form = document.getElementById('firebase-upload-form');
+        const statusMsg = document.getElementById('status-msg');
+        const submitBtn = document.getElementById('submit-btn');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const headline = document.getElementById('headline').value;
+            const date = document.getElementById('date').value;
+            const file = document.getElementById('file').files[0];
+            
+            if (!file) return;
+
+            statusMsg.style.display = 'block';
+            statusMsg.style.color = '#00f0ff';
+            statusMsg.innerText = 'Uploading file to Firebase Storage...';
+            submitBtn.disabled = true;
+
+            try {
+                // 1. Upload file to Firebase Storage
+                const storageRef = storage.ref('newspapers/' + Date.now() + '_' + file.name);
+                const snapshot = await storageRef.put(file);
+                
+                statusMsg.innerText = 'File uploaded! Saving to database...';
+                
+                // 2. Get the download URL
+                const downloadURL = await snapshot.ref.getDownloadURL();
+                
+                // 3. Save post metadata to Firestore
+                await db.collection('posts').add({
+                    headline: headline,
+                    date: date,
+                    fileUrl: downloadURL,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                statusMsg.style.color = '#00ff00';
+                statusMsg.innerText = 'Post uploaded successfully! You can view it on the Hartsbrook Post page.';
+                form.reset();
+            } catch (error) {
+                console.error("Error uploading:", error);
+                statusMsg.style.color = '#ff003c';
+                statusMsg.innerText = 'Error: ' + error.message;
+            } finally {
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

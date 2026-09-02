@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hartsbrook Post - Julian The Super Genius</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="hartsbrook-post.html" class="nav-link active">Hartsbrook Post</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="THE POST">THE POST</h1>
+            <h2 class="subtitle">THE HARTSBROOK NEWSPAPER</h2>
+        </header>
+        
+        <main>
+            <div class="glass-card">
+                <h3>Latest Editions</h3>
+                <div class="newspaper-content" id="posts-container">
+                    <p>Loading posts...</p>
+                </div>
+                
+                <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 2rem 0;">
+                
+                <h3>Email the Publisher</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">Have a scoop or want to submit an article for the next edition of the Hartsbrook Post? Use the form below to send an email directly to the publishing desk.</p>
+                
+                <form class="email-form" id="newspaper-form">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-input" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="submission" class="form-input" rows="4" placeholder="Paste your newspaper content or article here..." required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Email Submission</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
