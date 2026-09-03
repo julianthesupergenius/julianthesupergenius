@@ -79,16 +79,29 @@
             submitBtn.disabled = true;
 
             try {
-                // 1. Upload file to Firebase Storage
-                const storageRef = storage.ref('newspapers/' + Date.now() + '_' + file.name);
-                const snapshot = await storageRef.put(file);
+                // 1. Upload file to Cloudinary (Free, no credit card)
+                statusMsg.innerText = 'Uploading file to Cloudinary...';
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', 'super genius');
+                
+                const cloudResponse = await fetch('https://api.cloudinary.com/v1_1/j4eh5zvd/auto/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const cloudData = await cloudResponse.json();
+                if (cloudData.error) {
+                    throw new Error(cloudData.error.message);
+                }
                 
                 statusMsg.innerText = 'File uploaded! Saving to database...';
                 
-                // 2. Get the download URL
-                const downloadURL = await snapshot.ref.getDownloadURL();
+                // 2. Get the Cloudinary download URL
+                const downloadURL = cloudData.secure_url;
                 
-                // 3. Save post metadata to Firestore
+                // 3. Save post metadata to Firebase Firestore
                 await db.collection('posts').add({
                     headline: headline,
                     date: date,
