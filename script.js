@@ -39,6 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.style.animation = 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both';
                 setTimeout(() => {
                     card.style.animation = 'none';
+                    
+                    // Reveal the navigation bar
+                    const nav = document.getElementById('main-nav');
+                    if (nav) {
+                        nav.style.opacity = '1';
+                        nav.style.pointerEvents = 'auto';
+                    }
                 }, 500);
             }
         });
