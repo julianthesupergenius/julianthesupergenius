@@ -25,8 +25,16 @@
             <div class="glass-card">
                 <!-- 1. Babysitting -->
                 <h3>Babysitting</h3>
-                <p>Entrust your children to the care of a certified Super Genius. Select a date below to send an email booking request.</p>
+                <p>Entrust your children to the care of a certified Super Genius. Fill out your details and select a date below to send an email booking request.</p>
                 <form id="babysitting-form" class="email-form" style="max-width: 450px; margin: 0 auto 1rem auto;">
+                    <div class="form-group" style="text-align: left;">
+                        <label for="babysit-name" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Your Name</label>
+                        <input type="text" id="babysit-name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group" style="text-align: left;">
+                        <label for="babysit-address" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Your Address</label>
+                        <input type="text" id="babysit-address" class="form-input" placeholder="Enter your street address" required>
+                    </div>
                     <div class="form-group" style="text-align: left;">
                         <label for="babysit-date" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Select Date</label>
                         <input type="date" id="babysit-date" class="form-input" required style="color-scheme: dark;">
@@ -89,16 +97,21 @@
             }, 60);
         }
 
-        // Babysitting Form -> Select Date and Email
+        // Babysitting Form -> Select Name, Address, Date and Email
         const babysittingForm = document.getElementById('babysitting-form');
         if (babysittingForm) {
             babysittingForm.addEventListener('submit', (e) => {
                 e.preventDefault();
+                const name = document.getElementById('babysit-name').value;
+                const address = document.getElementById('babysit-address').value;
                 const date = document.getElementById('babysit-date').value;
-                const subject = encodeURIComponent('Babysitting Request for ' + date);
-                const body = encodeURIComponent('Hello Julian,\n\nI would like to book your Super Genius Babysitting service for the following date: ' + date + '\n\nThank you!');
+                const subject = encodeURIComponent(`Babysitting Request from ${name} (${date})`);
+                const body = encodeURIComponent(
+                    `Hello Julian,\n\nI would like to book your Super Genius Babysitting service.\n\nName: ${name}\nAddress: ${address}\nDate: ${date}\n\nThank you!`
+                );
                 const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${ADMIN_EMAIL}&su=${subject}&body=${body}`;
                 window.open(gmailLink, '_blank');
+                babysittingForm.reset();
             });
         }
 
