@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Products - Julian The Super Genius</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <nav class="navbar">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About Us</a>
+        <a href="hartsbrook-post.html" class="nav-link">Hartsbrook Post</a>
+        <a href="products.html" class="nav-link active">Our Products</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="OUR PRODUCTS">OUR PRODUCTS</h1>
+            <h2 class="subtitle">GENIUS SERVICES &amp; MERCH</h2>
+        </header>
+
+        <main>
+            <div class="glass-card">
+                <!-- 1. Babysitting -->
+                <h3>Babysitting</h3>
+                <p>Entrust your children to the care of a certified Super Genius. Select a date below to send an email booking request.</p>
+                <form id="babysitting-form" class="email-form" style="max-width: 450px; margin: 0 auto 1rem auto;">
+                    <div class="form-group" style="text-align: left;">
+                        <label for="babysit-date" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Select Date</label>
+                        <input type="date" id="babysit-date" class="form-input" required style="color-scheme: dark;">
+                    </div>
+                    <button type="submit" class="cta-button" style="margin-top: 0.5rem;">Book Date via Email</button>
+                </form>
+
+                <hr class="divider">
+
+                <!-- 2. Merch -->
+                <h3>Merch</h3>
+                <p>Official Julian The Super Genius apparel and high-IQ accessories.</p>
+                <button type="button" class="cta-button" onclick="typeInDevelopment('merch-status')">Buy Merch</button>
+                <p id="merch-status" style="margin-top: 1rem; margin-bottom: 0; color: var(--secondary); font-weight: 700; font-size: 1.2rem; min-height: 1.8rem; letter-spacing: 0.1em; text-transform: uppercase;"></p>
+
+                <hr class="divider">
+
+                <!-- 3. Spreading Super Geniusness -->
+                <h3>Spreading Super Geniusness</h3>
+                <p>Unlock exponential brainpower expansion and universal intellectual elevation.</p>
+                <button type="button" class="cta-button" onclick="typeInDevelopment('genius-status')">Acquire Super Geniusness</button>
+                <p id="genius-status" style="margin-top: 1rem; margin-bottom: 0; color: var(--secondary); font-weight: 700; font-size: 1.2rem; min-height: 1.8rem; letter-spacing: 0.1em; text-transform: uppercase;"></p>
+
+                <hr class="divider">
+
+                <!-- 4. Coding -->
+                <h3>Coding</h3>
+                <p>Need a website, script, or custom software built by a Super Genius? Send your request below.</p>
+                <form id="coding-form" class="email-form" style="max-width: 500px; margin: 0 auto;">
+                    <div class="form-group">
+                        <textarea id="coding-request" class="form-input" rows="3" placeholder="Describe your coding request..." required></textarea>
+                    </div>
+                    <button type="submit" class="cta-button">Send Coding Request</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const ADMIN_EMAIL = 'julianlacinaromer@gmail.com';
+
+        // Typewriter effect for "In Development" items
+        const activeTimers = {};
+        function typeInDevelopment(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            if (activeTimers[elementId]) {
+                clearInterval(activeTimers[elementId]);
+            }
+            const text = 'In Development';
+            el.textContent = '';
+            let i = 0;
+            activeTimers[elementId] = setInterval(() => {
+                el.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(activeTimers[elementId]);
+                }
+            }, 60);
+        }
+
+        // Babysitting Form -> Select Date and Email
+        const babysittingForm = document.getElementById('babysitting-form');
+        if (babysittingForm) {
+            babysittingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const date = document.getElementById('babysit-date').value;
+                const subject = encodeURIComponent('Babysitting Request for ' + date);
+                const body = encodeURIComponent('Hello Julian,\n\nI would like to book your Super Genius Babysitting service for the following date: ' + date + '\n\nThank you!');
+                const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${ADMIN_EMAIL}&su=${subject}&body=${body}`;
+                window.open(gmailLink, '_blank');
+            });
+        }
+
+        // Coding Form -> Send Email with Request
+        const codingForm = document.getElementById('coding-form');
+        if (codingForm) {
+            codingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const requestText = document.getElementById('coding-request').value;
+                const subject = encodeURIComponent('Super Genius Coding Request');
+                const body = encodeURIComponent(requestText);
+                const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${ADMIN_EMAIL}&su=${subject}&body=${body}`;
+                window.open(gmailLink, '_blank');
+                codingForm.reset();
+            });
+        }
+    </script>
+</body>
+</html>
