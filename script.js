@@ -85,7 +85,7 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// Newspaper Form Handler -> Automatic transmission via Formspree
+// Newspaper Form Handler -> Automatic transmission via Formspree + Cloudinary attachments
 const newspaperForm = document.getElementById('newspaper-form');
 if (newspaperForm) {
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwllzwjr';
@@ -97,17 +97,41 @@ if (newspaperForm) {
         
         const name = document.getElementById('newspaper-name').value;
         const submission = document.getElementById('newspaper-submission').value;
+        const fileInput = document.getElementById('newspaper-file');
+        const file = fileInput && fileInput.files ? fileInput.files[0] : null;
         
         if (newspaperSubmitBtn) {
             newspaperSubmitBtn.disabled = true;
             newspaperSubmitBtn.textContent = 'Submitting...';
         }
-        if (newspaperStatus) {
-            newspaperStatus.style.color = 'var(--primary)';
-            newspaperStatus.textContent = 'Transmitting article to publishing desk...';
-        }
 
         try {
+            let fileUrl = 'None';
+            if (file) {
+                if (newspaperStatus) {
+                    newspaperStatus.style.color = 'var(--primary)';
+                    newspaperStatus.textContent = 'Uploading attached file...';
+                }
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', 'super genius');
+
+                const cloudRes = await fetch('https://api.cloudinary.com/v1_1/j4eh5zvd/auto/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const cloudData = await cloudRes.json();
+                if (cloudData.error) {
+                    throw new Error('File upload failed: ' + cloudData.error.message);
+                }
+                fileUrl = cloudData.secure_url;
+            }
+
+            if (newspaperStatus) {
+                newspaperStatus.style.color = 'var(--primary)';
+                newspaperStatus.textContent = 'Transmitting article to publishing desk...';
+            }
+
             const response = await fetch(FORMSPREE_ENDPOINT, {
                 method: 'POST',
                 headers: {
@@ -118,6 +142,7 @@ if (newspaperForm) {
                     service: 'Hartsbrook Post Article Submission',
                     author: name,
                     article: submission,
+                    attachedFile: fileUrl,
                     _subject: `Hartsbrook Post Submission from ${name}`
                 })
             });
@@ -125,7 +150,7 @@ if (newspaperForm) {
             if (response.ok) {
                 if (newspaperStatus) {
                     newspaperStatus.style.color = '#00ff88';
-                    newspaperStatus.textContent = '✓ Article submitted successfully!';
+                    newspaperStatus.textContent = '✓ Article and file submitted successfully!';
                 }
                 newspaperForm.reset();
             } else {
@@ -136,7 +161,7 @@ if (newspaperForm) {
             console.error('Newspaper submission error:', err);
             if (newspaperStatus) {
                 newspaperStatus.style.color = 'var(--secondary)';
-                newspaperStatus.textContent = 'Error submitting article. Please try again.';
+                newspaperStatus.textContent = 'Error: ' + err.message;
             }
         } finally {
             if (newspaperSubmitBtn) {

@@ -25,7 +25,7 @@
             <div class="glass-card">
                 <!-- 1. Babysitting -->
                 <h3>Babysitting</h3>
-                <p>Entrust your children to the care of a certified Super Genius. Fill out your details and select a date below to submit a booking request.</p>
+                <p>Entrust your children to the care of a certified Super Genius. Fill out your details and select a date and time below to submit a booking request.</p>
                 <form id="babysitting-form" class="email-form" style="max-width: 450px; margin: 0 auto 1rem auto;">
                     <div class="form-group" style="text-align: left;">
                         <label for="babysit-name" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Your Name</label>
@@ -35,11 +35,17 @@
                         <label for="babysit-address" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Your Address</label>
                         <input type="text" id="babysit-address" class="form-input" placeholder="Enter your street address" required>
                     </div>
-                    <div class="form-group" style="text-align: left;">
-                        <label for="babysit-date" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Select Date</label>
-                        <input type="date" id="babysit-date" class="form-input" required style="color-scheme: dark;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group" style="text-align: left;">
+                            <label for="babysit-date" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Select Date</label>
+                            <input type="date" id="babysit-date" class="form-input" required style="color-scheme: dark;">
+                        </div>
+                        <div class="form-group" style="text-align: left;">
+                            <label for="babysit-time" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Select Time</label>
+                            <input type="time" id="babysit-time" class="form-input" required style="color-scheme: dark;">
+                        </div>
                     </div>
-                    <button type="submit" id="babysit-submit-btn" class="cta-button" style="margin-top: 0.5rem;">Book Date</button>
+                    <button type="submit" id="babysit-submit-btn" class="cta-button" style="margin-top: 0.5rem;">Book Babysitting</button>
                     <p id="babysit-status" style="margin-top: 0.8rem; margin-bottom: 0; font-weight: bold; min-height: 1.5rem;"></p>
                 </form>
 
@@ -55,7 +61,7 @@
 
                 <!-- 3. Spreading Super Geniusness -->
                 <h3>Spreading Super Geniusness</h3>
-                <p>With our partners at the Cosmic Acadamy for Advanced Intellect we now offer tutoring by a certified Super Genius.</p>
+                <p>With our partners at the Cosmic Academy for Advanced Intellect we now offer tutoring by a certified Super Genius.</p>
                 <button type="button" class="cta-button" onclick="typeInDevelopment('genius-status')">Acquire Super Geniusness</button>
                 <p id="genius-status" style="margin-top: 1rem; margin-bottom: 0; color: var(--secondary); font-weight: 700; font-size: 1.2rem; min-height: 1.8rem; letter-spacing: 0.1em; text-transform: uppercase;"></p>
 
@@ -88,6 +94,10 @@
                     </div>
                     <div class="form-group">
                         <textarea id="coding-request" class="form-input" rows="3" placeholder="Describe your coding request..." required></textarea>
+                    </div>
+                    <div class="form-group" style="text-align: left;">
+                        <label for="coding-file" style="display: block; margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem;">Attach File or Spec (Optional):</label>
+                        <input type="file" id="coding-file" class="form-input" style="padding: 0.6rem;">
                     </div>
                     <button type="submit" id="coding-submit-btn" class="cta-button">Send Coding Request</button>
                     <p id="coding-status" style="margin-top: 0.8rem; margin-bottom: 0; font-weight: bold; min-height: 1.5rem;"></p>
@@ -131,6 +141,7 @@
                 const name = document.getElementById('babysit-name').value;
                 const address = document.getElementById('babysit-address').value;
                 const date = document.getElementById('babysit-date').value;
+                const time = document.getElementById('babysit-time').value;
 
                 babysitSubmitBtn.disabled = true;
                 babysitSubmitBtn.textContent = 'Sending...';
@@ -149,7 +160,8 @@
                             name: name,
                             address: address,
                             date: date,
-                            _subject: `Babysitting Request from ${name} (${date})`
+                            time: time,
+                            _subject: `Babysitting Request from ${name} (${date} at ${time})`
                         })
                     });
 
@@ -167,12 +179,12 @@
                     babysitStatus.textContent = 'Error sending request. Please try again.';
                 } finally {
                     babysitSubmitBtn.disabled = false;
-                    babysitSubmitBtn.textContent = 'Book Date';
+                    babysitSubmitBtn.textContent = 'Book Babysitting';
                 }
             });
         }
 
-        // Coding Form -> Automatically sends via Formspree
+        // Coding Form -> Automatically sends via Formspree + Cloudinary attachment
         const codingForm = document.getElementById('coding-form');
         const codingSubmitBtn = document.getElementById('coding-submit-btn');
         const codingStatus = document.getElementById('coding-status');
@@ -183,13 +195,35 @@
                 const checkedBoxes = Array.from(codingForm.querySelectorAll('input[name="coding-type"]:checked')).map(cb => cb.value);
                 const selectedTypes = checkedBoxes.length > 0 ? checkedBoxes.join(', ') : 'Not specified';
                 const requestText = document.getElementById('coding-request').value;
+                const fileInput = document.getElementById('coding-file');
+                const file = fileInput && fileInput.files ? fileInput.files[0] : null;
 
                 codingSubmitBtn.disabled = true;
                 codingSubmitBtn.textContent = 'Sending...';
-                codingStatus.style.color = 'var(--primary)';
-                codingStatus.textContent = 'Transmitting coding project to Julian...';
 
                 try {
+                    let fileUrl = 'None';
+                    if (file) {
+                        codingStatus.style.color = 'var(--primary)';
+                        codingStatus.textContent = 'Uploading attached file...';
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('upload_preset', 'super genius');
+
+                        const cloudRes = await fetch('https://api.cloudinary.com/v1_1/j4eh5zvd/auto/upload', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const cloudData = await cloudRes.json();
+                        if (cloudData.error) {
+                            throw new Error('File upload failed: ' + cloudData.error.message);
+                        }
+                        fileUrl = cloudData.secure_url;
+                    }
+
+                    codingStatus.style.color = 'var(--primary)';
+                    codingStatus.textContent = 'Transmitting coding project to Julian...';
+
                     const response = await fetch(FORMSPREE_ENDPOINT, {
                         method: 'POST',
                         headers: {
@@ -200,13 +234,14 @@
                             service: 'Coding Project Request',
                             projectTypes: selectedTypes,
                             details: requestText,
+                            attachedFile: fileUrl,
                             _subject: `Super Genius Coding Request [${selectedTypes}]`
                         })
                     });
 
                     if (response.ok) {
                         codingStatus.style.color = '#00ff88';
-                        codingStatus.textContent = '✓ Coding request sent automatically!';
+                        codingStatus.textContent = '✓ Coding request and file sent automatically!';
                         codingForm.reset();
                     } else {
                         const data = await response.json();
@@ -215,7 +250,7 @@
                 } catch (err) {
                     console.error('Coding Form error:', err);
                     codingStatus.style.color = 'var(--secondary)';
-                    codingStatus.textContent = 'Error sending request. Please try again.';
+                    codingStatus.textContent = 'Error: ' + err.message;
                 } finally {
                     codingSubmitBtn.disabled = false;
                     codingSubmitBtn.textContent = 'Send Coding Request';
