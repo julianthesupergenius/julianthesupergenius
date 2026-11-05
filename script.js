@@ -85,25 +85,65 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
-// Newspaper Form Handler
+// Newspaper Form Handler -> Automatic transmission via Formspree
 const newspaperForm = document.getElementById('newspaper-form');
 if (newspaperForm) {
-    newspaperForm.addEventListener('submit', (e) => {
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwllzwjr';
+    const newspaperSubmitBtn = document.getElementById('newspaper-submit-btn');
+    const newspaperStatus = document.getElementById('newspaper-status');
+
+    newspaperForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const name = newspaperForm.querySelector('input[name="name"]').value;
-        const submission = newspaperForm.querySelector('textarea[name="submission"]').value;
+        const name = document.getElementById('newspaper-name').value;
+        const submission = document.getElementById('newspaper-submission').value;
         
-        const email = 'julianlacinaromer@gmail.com';
-        const subject = encodeURIComponent('Hartsbrook Post Submission from ' + name);
-        const body = encodeURIComponent(submission);
-        
-        // Open Gmail web composer in a new tab
-        const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-        window.open(gmailLink, '_blank');
-        
-        // Optional: clear the form after opening
-        newspaperForm.reset();
+        if (newspaperSubmitBtn) {
+            newspaperSubmitBtn.disabled = true;
+            newspaperSubmitBtn.textContent = 'Submitting...';
+        }
+        if (newspaperStatus) {
+            newspaperStatus.style.color = 'var(--primary)';
+            newspaperStatus.textContent = 'Transmitting article to publishing desk...';
+        }
+
+        try {
+            const response = await fetch(FORMSPREE_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    service: 'Hartsbrook Post Article Submission',
+                    author: name,
+                    article: submission,
+                    _subject: `Hartsbrook Post Submission from ${name}`
+                })
+            });
+
+            if (response.ok) {
+                if (newspaperStatus) {
+                    newspaperStatus.style.color = '#00ff88';
+                    newspaperStatus.textContent = '✓ Article submitted successfully!';
+                }
+                newspaperForm.reset();
+            } else {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to submit article');
+            }
+        } catch (err) {
+            console.error('Newspaper submission error:', err);
+            if (newspaperStatus) {
+                newspaperStatus.style.color = 'var(--secondary)';
+                newspaperStatus.textContent = 'Error submitting article. Please try again.';
+            }
+        } finally {
+            if (newspaperSubmitBtn) {
+                newspaperSubmitBtn.disabled = false;
+                newspaperSubmitBtn.textContent = 'Submit Article';
+            }
+        }
     });
 }
 
