@@ -9,17 +9,15 @@
 </head>
 <body>
     <div class="background-animation"></div>
-    <div class="container" style="max-width: 1200px; margin-top: 2rem;">
-        <div style="text-align: left; margin-bottom: 1.5rem;">
-            <a href="products.html" class="cta-button" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.9rem;">&larr; Back to all Products</a>
-        </div>
+    <div class="container" style="max-width: 1200px;">
         <header>
             <h1 class="glitch" data-text="OFFICIAL MERCH">OFFICIAL MERCH</h1>
             <h2 class="subtitle">GENIUS APPAREL &amp; ARTIFACTS</h2>
         </header>
 
         <main>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: stretch;">
+            <!-- 1 & 2: Hoodie & T-Shirt side by side -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: stretch; margin-bottom: 2rem;">
                 
                 <!-- 1. Hoodie Card -->
                 <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
@@ -51,51 +49,70 @@
                     </div>
                 </div>
 
-                <!-- 3. Circular Sticker Card (Requestable) -->
-                <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
-                    <div>
-                        <div style="position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 1.2rem; background: #fff; padding: 10px; display: flex; gap: 10px; justify-content: center; align-items: center;">
+            </div>
+
+            <!-- 3. Circular Sticker Card (Wide Horizontal Layout) -->
+            <div class="glass-card" style="padding: 2.2rem; text-align: left;">
+                <div style="display: flex; gap: 2.5rem; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    
+                    <!-- Left: Interactive Sticker Preview -->
+                    <div style="flex: 1 1 280px; max-width: 340px; text-align: center;">
+                        <div style="position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--glass-border); background: #fff; padding: 15px; margin-bottom: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
                             <img id="sticker-preview-img" src="grayscale_sticker_design.jpg" alt="Official Circular Super Genius Sticker" style="width: 100%; height: 230px; object-fit: contain; transition: transform 0.3s ease;">
                         </div>
-                        <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Official Circular Sticker</h3>
+                        <p style="font-size: 0.85rem; color: #888; margin: 0;">Printed on Hello Blink Thermal Sticker Paper</p>
+                    </div>
+
+                    <!-- Right: Details & Request Form -->
+                    <div style="flex: 2 1 450px;">
+                        <h3 style="margin-bottom: 0.5rem; font-size: 1.6rem;">Official Circular Sticker</h3>
                         <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 1.2rem;">Custom printed on our Hello Blink thermal printer. Choose your edition and request a physical copy below!</p>
                         
                         <form id="sticker-form" class="email-form" style="margin-top: 0;">
                             <div class="form-group" style="text-align: left;">
                                 <label style="display: block; margin-bottom: 0.4rem; color: var(--primary); font-size: 0.85rem; font-weight: 500;">Select Sticker Style:</label>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
-                                    <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.6rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border);">
                                         <input type="radio" name="sticker-style" value="Grayscale Edition" checked onchange="document.getElementById('sticker-preview-img').src='grayscale_sticker_design.jpg'" style="accent-color: var(--primary); cursor: pointer;">
-                                        Grayscale 3D
+                                        Grayscale 3D Edition
                                     </label>
-                                    <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border);">
                                         <input type="radio" name="sticker-style" value="Pure Black & White Edition" onchange="document.getElementById('sticker-preview-img').src='thermal_sticker_design.jpg'" style="accent-color: var(--primary); cursor: pointer;">
-                                        Pure B&amp;W
+                                        Pure B&amp;W Edition
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-group" style="text-align: left;">
-                                <label for="sticker-name" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Name</label>
-                                <input type="text" id="sticker-name" class="form-input" placeholder="Your name" required>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem;">
+                                <div class="form-group" style="text-align: left;">
+                                    <label for="sticker-name" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Name</label>
+                                    <input type="text" id="sticker-name" class="form-input" placeholder="Your name" required>
+                                </div>
+                                <div class="form-group" style="text-align: left;">
+                                    <label for="sticker-email" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Email (for reply)</label>
+                                    <input type="email" id="sticker-email" class="form-input" placeholder="you@email.com" required>
+                                </div>
                             </div>
-                            <div class="form-group" style="text-align: left;">
-                                <label for="sticker-email" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Email (for reply)</label>
-                                <input type="email" id="sticker-email" class="form-input" placeholder="you@email.com" required>
-                            </div>
+
                             <div class="form-group" style="text-align: left;">
                                 <label for="sticker-note" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Mailing Address / Note</label>
                                 <textarea id="sticker-note" class="form-input" rows="2" placeholder="Where should Julian send your sticker?" required></textarea>
                             </div>
-                            <button type="submit" id="sticker-submit-btn" class="cta-button" style="width: 100%; padding: 0.75rem 1.5rem; font-size: 0.95rem; margin-top: 0.5rem;">Request Sticker</button>
-                            <p id="sticker-status" style="margin-top: 0.8rem; margin-bottom: 0; font-weight: bold; min-height: 1.5rem; font-size: 0.9rem; text-align: center;"></p>
+
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem;">
+                                <button type="submit" id="sticker-submit-btn" class="cta-button" style="padding: 0.75rem 2rem; font-size: 0.95rem;">Request Sticker</button>
+                                <p id="sticker-status" style="margin: 0; font-weight: bold; min-height: 1.5rem; font-size: 0.9rem;"></p>
+                            </div>
                         </form>
                     </div>
+
                 </div>
+            </div>
 
             </div>
 
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="products.html" class="cta-button" style="text-decoration: none; display: inline-block;">&larr; Back to all Products</a>
+            <div style="text-align: center; margin-top: 3.5rem; margin-bottom: 2rem;">
+                <a href="products.html" class="cta-button" style="text-decoration: none; display: inline-block; padding: 1.1rem 3rem; font-size: 1.15rem; letter-spacing: 0.12em;">&larr; Back to all Products</a>
             </div>
         </main>
     </div>
