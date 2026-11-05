@@ -51,25 +51,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Add dynamic hover effect to the card based on mouse position
-    const card = document.querySelector('.glass-card');
+    // Add dynamic 3D tilt hover effect to ALL glass cards based on mouse position
+    const cards = document.querySelectorAll('.glass-card');
     
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
         
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = ((y - centerY) / centerY) * -5;
-        const rotateY = ((x - centerX) / centerX) * 5;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
     });
 });
 
@@ -96,6 +98,7 @@ if (newspaperForm) {
         e.preventDefault();
         
         const name = document.getElementById('newspaper-name').value;
+        const email = document.getElementById('newspaper-email').value;
         const submission = document.getElementById('newspaper-submission').value;
         const fileInput = document.getElementById('newspaper-file');
         const file = fileInput && fileInput.files ? fileInput.files[0] : null;
@@ -141,8 +144,10 @@ if (newspaperForm) {
                 body: JSON.stringify({
                     service: 'Hartsbrook Post Article Submission',
                     author: name,
+                    email: email,
                     article: submission,
                     attachedFile: fileUrl,
+                    _replyto: email,
                     _subject: `Hartsbrook Post Submission from ${name}`
                 })
             });
