@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Merch - Julian The Super Genius</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="container" style="max-width: 1200px; margin-top: 2rem;">
+        <div style="text-align: left; margin-bottom: 1.5rem;">
+            <a href="products.html" class="cta-button" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.4rem; font-size: 0.9rem;">&larr; Back to all Products</a>
+        </div>
+        <header>
+            <h1 class="glitch" data-text="OFFICIAL MERCH">OFFICIAL MERCH</h1>
+            <h2 class="subtitle">GENIUS APPAREL &amp; ARTIFACTS</h2>
+        </header>
+
+        <main>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: stretch;">
+                
+                <!-- 1. Hoodie Card -->
+                <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                    <div>
+                        <div style="position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 1.2rem; background: #000;">
+                            <img src="hoodie_print_design.jpg" alt="Julian The Super Genius Hoodie Design" style="width: 100%; height: 260px; object-fit: contain; transition: transform 0.3s ease;">
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Super Genius Hoodie</h3>
+                        <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 1rem;">Constructivist red star hoodie featuring cybernetic cortex circuitry, golden rays, and the official Cosmic Academy emblem.</p>
+                    </div>
+                    <div>
+                        <button type="button" class="cta-button" onclick="typeInDevelopment('hoodie-status')" style="width: 100%; padding: 0.75rem 1.5rem; font-size: 0.95rem;">Order Hoodie</button>
+                        <p id="hoodie-status" style="margin-top: 0.8rem; margin-bottom: 0; color: var(--secondary); font-weight: 700; font-size: 1.1rem; min-height: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; text-align: center;"></p>
+                    </div>
+                </div>
+
+                <!-- 2. T-Shirt Card -->
+                <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                    <div>
+                        <div style="position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 1.2rem; background: #000;">
+                            <img src="tshirt_print_design.jpg" alt="Quantum IQ T-Shirt Design" style="width: 100%; height: 260px; object-fit: contain; transition: transform 0.3s ease;">
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Quantum IQ T-Shirt</h3>
+                        <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 1rem;">Heavyweight black cotton tee featuring the beveled Red Star, quantum orbital rings, and proletarian brilliance typography.</p>
+                    </div>
+                    <div>
+                        <button type="button" class="cta-button" onclick="typeInDevelopment('tshirt-status')" style="width: 100%; padding: 0.75rem 1.5rem; font-size: 0.95rem;">Order T-Shirt</button>
+                        <p id="tshirt-status" style="margin-top: 0.8rem; margin-bottom: 0; color: var(--secondary); font-weight: 700; font-size: 1.1rem; min-height: 1.6rem; letter-spacing: 0.1em; text-transform: uppercase; text-align: center;"></p>
+                    </div>
+                </div>
+
+                <!-- 3. Circular Sticker Card (Requestable) -->
+                <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: left;">
+                    <div>
+                        <div style="position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--glass-border); margin-bottom: 1.2rem; background: #fff; padding: 10px; display: flex; gap: 10px; justify-content: center; align-items: center;">
+                            <img id="sticker-preview-img" src="grayscale_sticker_design.jpg" alt="Official Circular Super Genius Sticker" style="width: 100%; height: 230px; object-fit: contain; transition: transform 0.3s ease;">
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem;">Official Circular Sticker</h3>
+                        <p style="font-size: 0.95rem; color: #ccc; margin-bottom: 1.2rem;">Custom printed on our Hello Blink thermal printer. Choose your edition and request a physical copy below!</p>
+                        
+                        <form id="sticker-form" class="email-form" style="margin-top: 0;">
+                            <div class="form-group" style="text-align: left;">
+                                <label style="display: block; margin-bottom: 0.4rem; color: var(--primary); font-size: 0.85rem; font-weight: 500;">Select Sticker Style:</label>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                                        <input type="radio" name="sticker-style" value="Grayscale Edition" checked onchange="document.getElementById('sticker-preview-img').src='grayscale_sticker_design.jpg'" style="accent-color: var(--primary); cursor: pointer;">
+                                        Grayscale 3D
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: #ddd; font-size: 0.85rem; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                                        <input type="radio" name="sticker-style" value="Pure Black & White Edition" onchange="document.getElementById('sticker-preview-img').src='thermal_sticker_design.jpg'" style="accent-color: var(--primary); cursor: pointer;">
+                                        Pure B&amp;W
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group" style="text-align: left;">
+                                <label for="sticker-name" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Name</label>
+                                <input type="text" id="sticker-name" class="form-input" placeholder="Your name" required>
+                            </div>
+                            <div class="form-group" style="text-align: left;">
+                                <label for="sticker-email" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Your Email (for reply)</label>
+                                <input type="email" id="sticker-email" class="form-input" placeholder="you@email.com" required>
+                            </div>
+                            <div class="form-group" style="text-align: left;">
+                                <label for="sticker-note" style="display: block; margin-bottom: 0.3rem; color: var(--primary); font-size: 0.85rem;">Mailing Address / Note</label>
+                                <textarea id="sticker-note" class="form-input" rows="2" placeholder="Where should Julian send your sticker?" required></textarea>
+                            </div>
+                            <button type="submit" id="sticker-submit-btn" class="cta-button" style="width: 100%; padding: 0.75rem 1.5rem; font-size: 0.95rem; margin-top: 0.5rem;">Request Sticker</button>
+                            <p id="sticker-status" style="margin-top: 0.8rem; margin-bottom: 0; font-weight: bold; min-height: 1.5rem; font-size: 0.9rem; text-align: center;"></p>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="products.html" class="cta-button" style="text-decoration: none; display: inline-block;">&larr; Back to all Products</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xwllzwjr';
+
+        // Typewriter effect for "In Development" items
+        const activeTimers = {};
+        function typeInDevelopment(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            if (activeTimers[elementId]) {
+                clearInterval(activeTimers[elementId]);
+            }
+            const text = 'In Development';
+            el.textContent = '';
+            let i = 0;
+            activeTimers[elementId] = setInterval(() => {
+                el.textContent += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(activeTimers[elementId]);
+                }
+            }, 60);
+        }
+
+        // Sticker Form Handler -> Sends via Formspree with user's email for replies
+        const stickerForm = document.getElementById('sticker-form');
+        const stickerSubmitBtn = document.getElementById('sticker-submit-btn');
+        const stickerStatus = document.getElementById('sticker-status');
+
+        if (stickerForm) {
+            stickerForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('sticker-name').value;
+                const email = document.getElementById('sticker-email').value;
+                const note = document.getElementById('sticker-note').value;
+                const selectedStyle = document.querySelector('input[name="sticker-style"]:checked') ? document.querySelector('input[name="sticker-style"]:checked').value : 'Grayscale Edition';
+
+                stickerSubmitBtn.disabled = true;
+                stickerSubmitBtn.textContent = 'Sending...';
+                stickerStatus.style.color = 'var(--primary)';
+                stickerStatus.textContent = 'Transmitting sticker request to Julian...';
+
+                try {
+                    const response = await fetch(FORMSPREE_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            service: 'Official Sticker Request',
+                            item: `Hello Blink Sticker (${selectedStyle})`,
+                            stickerStyle: selectedStyle,
+                            name: name,
+                            email: email,
+                            addressOrNote: note,
+                            _replyto: email,
+                            _subject: `Sticker Request (${selectedStyle}) from ${name}`
+                        })
+                    });
+
+                    if (response.ok) {
+                        stickerStatus.style.color = '#00ff88';
+                        stickerStatus.textContent = '✓ Sticker request sent! Julian will email you back.';
+                        stickerForm.reset();
+                    } else {
+                        const data = await response.json();
+                        throw new Error(data.error || 'Failed to send request');
+                    }
+                } catch (err) {
+                    console.error('Sticker Form error:', err);
+                    stickerStatus.style.color = 'var(--secondary)';
+                    stickerStatus.textContent = 'Error sending request. Please try again.';
+                } finally {
+                    stickerSubmitBtn.disabled = false;
+                    stickerSubmitBtn.textContent = 'Request Sticker';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
