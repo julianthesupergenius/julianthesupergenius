@@ -40,8 +40,13 @@
                 <p style="font-size: 0.9rem; margin-bottom: 1rem;">Have a scoop or want to submit an article for the next edition of the Hartsbrook Post? Use the form below to send an email directly to the publishing desk.</p>
                 
                 <form class="email-form" id="newspaper-form">
-                    <div class="form-group">
-                        <input type="text" name="name" id="newspaper-name" class="form-input" placeholder="Your Name" required>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <input type="text" name="name" id="newspaper-name" class="form-input" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="newspaper-email" class="form-input" placeholder="Your Email" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <textarea name="submission" id="newspaper-submission" class="form-input" rows="4" placeholder="Paste your newspaper content or article here..." required></textarea>
