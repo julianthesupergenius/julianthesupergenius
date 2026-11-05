@@ -62,8 +62,29 @@
 
                 <!-- 4. Coding -->
                 <h3>Coding</h3>
-                <p>Need a website, script, or custom software built by a Super Genius? Send your request below.</p>
+                <p>Need a website, script, or custom software built by a Super Genius? Select the project type and send your request below.</p>
                 <form id="coding-form" class="email-form" style="max-width: 500px; margin: 0 auto;">
+                    <div class="form-group" style="text-align: left; background: rgba(255, 255, 255, 0.03); padding: 1rem; border-radius: 10px; border: 1px solid var(--glass-border);">
+                        <label style="display: block; margin-bottom: 0.75rem; color: var(--primary); font-size: 0.95rem; font-weight: 500;">Project Type (select all that apply):</label>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.95rem;">
+                                <input type="checkbox" name="coding-type" value="AI Agent" style="accent-color: var(--primary); width: 1.1rem; height: 1.1rem; cursor: pointer;">
+                                AI Agent
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.95rem;">
+                                <input type="checkbox" name="coding-type" value="Simple Application" style="accent-color: var(--primary); width: 1.1rem; height: 1.1rem; cursor: pointer;">
+                                Simple Application
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.95rem;">
+                                <input type="checkbox" name="coding-type" value="Game / Entertainment" style="accent-color: var(--primary); width: 1.1rem; height: 1.1rem; cursor: pointer;">
+                                Game / Entertainment
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: #ddd; font-size: 0.95rem;">
+                                <input type="checkbox" name="coding-type" value="Debugging" style="accent-color: var(--primary); width: 1.1rem; height: 1.1rem; cursor: pointer;">
+                                Debugging
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <textarea id="coding-request" class="form-input" rows="3" placeholder="Describe your coding request..." required></textarea>
                     </div>
@@ -120,9 +141,14 @@
         if (codingForm) {
             codingForm.addEventListener('submit', (e) => {
                 e.preventDefault();
+                const checkedBoxes = Array.from(codingForm.querySelectorAll('input[name="coding-type"]:checked')).map(cb => cb.value);
+                const selectedTypes = checkedBoxes.length > 0 ? checkedBoxes.join(', ') : 'Not specified';
                 const requestText = document.getElementById('coding-request').value;
-                const subject = encodeURIComponent('Super Genius Coding Request');
-                const body = encodeURIComponent(requestText);
+
+                const subject = encodeURIComponent(`Super Genius Coding Request [${selectedTypes}]`);
+                const body = encodeURIComponent(
+                    `Hello Julian,\n\nI have a coding request for you!\n\nProject Type(s): ${selectedTypes}\n\nProject Details:\n${requestText}\n\nThank you!`
+                );
                 const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${ADMIN_EMAIL}&su=${subject}&body=${body}`;
                 window.open(gmailLink, '_blank');
                 codingForm.reset();
