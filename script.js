@@ -1,3 +1,35 @@
+// AI chatbot: only available after the Genius Protocol has been initiated (this browser session).
+// Never loaded on the admin page.
+function loadChatbot() {
+    if (/admin\.html$/i.test(window.location.pathname)) return;
+    if (document.getElementById('ai-bot-kit-script')) return;
+    if (!document.getElementById('ai-bot-kit-chatbot')) {
+        const holder = document.createElement('div');
+        holder.id = 'ai-bot-kit-chatbot';
+        holder.setAttribute('data-chatbot-id', '7f7249bf-d5f5-43');
+        document.body.appendChild(holder);
+    }
+    const s = document.createElement('script');
+    s.id = 'ai-bot-kit-script';
+    s.src = 'https://app.aibotkit.io/embed.js';
+    s.async = true;
+    s.defer = true;
+    document.body.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (sessionStorage.getItem('geniusProtocolInitiated') === 'true') {
+        loadChatbot();
+    }
+    const protocolBtn = document.getElementById('interact-btn');
+    if (protocolBtn) {
+        protocolBtn.addEventListener('click', () => {
+            sessionStorage.setItem('geniusProtocolInitiated', 'true');
+            loadChatbot();
+        });
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const interactBtn = document.getElementById('interact-btn');
     const container = document.querySelector('.container');
