@@ -18,10 +18,14 @@ function loadChatbot() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const protocolBtn = document.getElementById('interact-btn');
+    // The homepage is the gate: every fresh visit/reload starts locked until the button is clicked.
+    if (protocolBtn) {
+        sessionStorage.removeItem('geniusProtocolInitiated');
+    }
     if (sessionStorage.getItem('geniusProtocolInitiated') === 'true') {
         loadChatbot();
     }
-    const protocolBtn = document.getElementById('interact-btn');
     if (protocolBtn) {
         protocolBtn.addEventListener('click', () => {
             sessionStorage.setItem('geniusProtocolInitiated', 'true');
